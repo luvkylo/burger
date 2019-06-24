@@ -1,0 +1,73 @@
+<img src="/assets/img/burger.png" width="100px">
+
+<h1>Eat-Da-Burger!</h1>
+
+<ul class="notDevoured">
+    {{#each burgers}}
+        {{#unless devoured}}
+            <li>
+                {{id}}. {{burger_name}}
+
+                <button class="change-state" data-id="{{id}}">
+                    Devour it!
+                </button>
+            </li>
+        {{/unless}}
+    {{/each}}
+</ul>
+
+<ul class="devoured">
+    {{#each burgers}}
+        {{#if devoured}}
+            <li>
+                {{id}}. {{burger_name}}
+            </li>
+        {{/if}}
+    {{/each}}
+</ul>
+
+<form class="create-form">
+
+    <textarea id="burger" name="name" rows="5" cols="50"></textarea>
+    <br>
+    <button type="submit">Submit</button>
+
+    <p>Enter a burger you want to eat and click the "Submit" button.</p>
+</form>
+
+<script type="text/javascript">
+$(function() {
+    $(".change-state").on("click", function(event) {
+        event.preventDefault();
+
+        var id = $(this).data("id");
+
+        $.ajax("/api/burgers/" + id, {
+            type: "PUT"
+        }).then(
+            function() {
+                console.log("Change devoured to true");
+                location.reload();
+            }
+        );
+    });
+
+    $(".create-form").on("submit", function(event) {
+        event.preventDefault();
+
+        var newBurger = {
+            burger_name: $("#burger").val().trim()
+        };
+
+        $.ajax("/api/burgers", {
+            type: "POST",
+            data: newBurger
+        }).then(
+            function() {
+                console.log("Created new burger");
+                location.reload();
+            }
+        );
+    });
+});
+</script>

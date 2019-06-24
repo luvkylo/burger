@@ -1,0 +1,25 @@
+body {
+    background-color: bisque;
+    text-align: center;
+}
+
+ul {
+    padding: 0;
+    width: 50%;
+}
+
+.notDevoured {
+    float: left;
+}
+
+.devoured {
+    float: right;
+}
+
+li {
+    list-style: none;
+}
+
+.create-form {
+    clear: both;
+}
